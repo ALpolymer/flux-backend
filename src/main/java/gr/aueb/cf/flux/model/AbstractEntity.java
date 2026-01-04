@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-
 public abstract class AbstractEntity {
 
 

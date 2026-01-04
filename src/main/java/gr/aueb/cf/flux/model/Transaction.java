@@ -1,10 +1,11 @@
 package gr.aueb.cf.flux.model;
 
+import gr.aueb.cf.flux.core.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class Category extends AbstractEntity{
+public class Transaction extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,23 +22,30 @@ public class Category extends AbstractEntity{
     @Column(unique = true, updatable = false)
     private String uuid;
 
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
+
     @Column
-    private String name;
+    private BigDecimal amount;
 
     @Column
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column
+    private LocalDateTime date;
 
-    @Getter(AccessLevel.PROTECTED)
-    @OneToMany(mappedBy = "category")
-    private Set<Transaction> transactions = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wallet_id")
+    private Wallet wallet;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @PrePersist
     public void initializeUUID() {
         if (uuid == null) uuid = UUID.randomUUID().toString();
     }
-
 }

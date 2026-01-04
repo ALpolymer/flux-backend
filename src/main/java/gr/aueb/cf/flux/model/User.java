@@ -33,7 +33,7 @@ public class User extends AbstractEntity {
     @Column(unique = true)
     private String email;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @ColumnDefault("false")

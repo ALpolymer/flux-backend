@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +34,10 @@ public class Wallet extends AbstractEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Getter(AccessLevel.PROTECTED)
+    @OneToMany(mappedBy = "wallet")
+    private Set<Transaction> transactions = new HashSet<>();
 
 
     @PrePersist
