@@ -13,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@Table(name = "categories")
 public class Category extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

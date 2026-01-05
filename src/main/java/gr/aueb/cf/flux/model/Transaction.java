@@ -14,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@Table(name = "transactions")
 public class Transaction extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
