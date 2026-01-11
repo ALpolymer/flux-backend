@@ -61,7 +61,11 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return this.email;
+    }
+
+    public String getActualUsername(){
+        return this.username;
     }
 
     @Override
