@@ -28,7 +28,7 @@ public class UserMapper {
     public UserReadOnlyDTO mapToUserReadOnlyDto(User user){
         return new UserReadOnlyDTO(
                 user.getUuid(),
-                user.getUsername(),
+                user.getActualUsername(),
                 user.getEmail(),
                 user.getCreatedAt(),
                 user.getUpdatedAt()
