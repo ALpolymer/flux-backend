@@ -13,5 +13,6 @@ import java.util.Optional;
 public interface WalletRepository extends JpaRepository<Wallet, Long>
 , JpaSpecificationExecutor<Wallet> {
     Optional<Wallet> findByUuid(String uuid);
+    Optional<Wallet> findByUuidAndUserId(String uuid, Long userId);
     List<Wallet> findByUserId(Long userId);
 }
