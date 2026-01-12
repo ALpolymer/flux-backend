@@ -1,11 +1,30 @@
 package gr.aueb.cf.flux.service;
 
-import gr.aueb.cf.flux.core.exceptions.AppObjectAlreadyExists;
 import gr.aueb.cf.flux.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.flux.dto.WalletInsertDTO;
 import gr.aueb.cf.flux.dto.WalletReadOnlyDTO;
+import gr.aueb.cf.flux.dto.WalletUpdateDTO;
+import gr.aueb.cf.flux.model.User;
+
+import java.util.List;
 
 public interface IWalletService {
-    WalletReadOnlyDTO createWallet(WalletInsertDTO dto, String userUuid)
-            throws AppObjectNotFoundException, AppObjectAlreadyExists;
+
+    // GET /api/wallets
+    List<WalletReadOnlyDTO> getAllWalletsByUser(Long userId);
+
+    // GET /api/wallets/{uuid}
+    WalletReadOnlyDTO getWalletByUuid(String uuid)
+        throws AppObjectNotFoundException;
+
+    // POST /api/wallets
+    WalletReadOnlyDTO createWallet(WalletInsertDTO dto, User user);
+
+    // PUT /api/wallets/{uuid}
+    WalletReadOnlyDTO updateWallet(String uuid, WalletUpdateDTO dto)
+        throws AppObjectNotFoundException;
+
+    void deleteWallet(String uuid)
+            throws AppObjectNotFoundException;
+
 }
