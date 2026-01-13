@@ -14,17 +14,17 @@ public interface IWalletService {
     List<WalletReadOnlyDTO> getAllWalletsByUser(Long userId);
 
     // GET /api/wallets/{uuid}
-    WalletReadOnlyDTO getWalletByUuid(String uuid)
+    WalletReadOnlyDTO getWalletByUuid(String uuid, Long userId)
         throws AppObjectNotFoundException;
 
     // POST /api/wallets
     WalletReadOnlyDTO createWallet(WalletInsertDTO dto, User user);
 
     // PUT /api/wallets/{uuid}
-    WalletReadOnlyDTO updateWallet(String uuid, WalletUpdateDTO dto)
+    WalletReadOnlyDTO updateWallet(String uuid, Long userId, WalletUpdateDTO dto)
         throws AppObjectNotFoundException;
 
-    void deleteWallet(String uuid)
+    void deleteWallet(String uuid, Long userId)
             throws AppObjectNotFoundException;
 
 }
