@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/wallets")
 @RequiredArgsConstructor
@@ -23,16 +24,28 @@ public class WalletController {
 
     private final IWalletService walletService;
 
+
+
+    @PostMapping("/test")
+    public ResponseEntity<String> testAuth(@AuthenticationPrincipal User currentUser) {
+
+        if (currentUser == null) {
+            return ResponseEntity.ok("User is NULL");
+        }
+        return ResponseEntity.ok("User ID: " + currentUser.getId() + ", Name: " + currentUser.getUsername());
+    }
+
     // ═══════════════════════════════════════════
     // GET /api/wallets
     // ═══════════════════════════════════════════
     @GetMapping
-    public ResponseEntity<List<WalletReadOnlyDTO>> getAllWallets(
+    public ResponseEntity<List<WalletReadOnlyDTO> > getAllWallets(
             @AuthenticationPrincipal User currentUser
     ) {
         Long userId = currentUser.getId();
 
         List<WalletReadOnlyDTO> wallets = walletService.getAllWalletsByUser(userId);
+
 
         return ResponseEntity.ok(wallets);
     }
