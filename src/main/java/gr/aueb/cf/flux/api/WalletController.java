@@ -5,7 +5,7 @@ import gr.aueb.cf.flux.dto.WalletInsertDTO;
 import gr.aueb.cf.flux.dto.WalletReadOnlyDTO;
 import gr.aueb.cf.flux.dto.WalletUpdateDTO;
 import gr.aueb.cf.flux.model.User;
-import gr.aueb.cf.flux.model.Wallet;
+
 import gr.aueb.cf.flux.service.IWalletService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +23,6 @@ import java.util.List;
 public class WalletController {
 
     private final IWalletService walletService;
-
-
-
-    @PostMapping("/test")
-    public ResponseEntity<String> testAuth(@AuthenticationPrincipal User currentUser) {
-
-        if (currentUser == null) {
-            return ResponseEntity.ok("User is NULL");
-        }
-        return ResponseEntity.ok("User ID: " + currentUser.getId() + ", Name: " + currentUser.getUsername());
-    }
 
     // ═══════════════════════════════════════════
     // GET /api/wallets
