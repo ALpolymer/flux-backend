@@ -8,10 +8,11 @@ import gr.aueb.cf.flux.mapper.WalletMapper;
 import gr.aueb.cf.flux.model.User;
 import gr.aueb.cf.flux.model.Wallet;
 import gr.aueb.cf.flux.repository.WalletRepository;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class WalletService implements IWalletService {
     private final WalletMapper walletMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<WalletReadOnlyDTO> getAllWalletsByUser(Long userId) {
         List<Wallet> allWallets = walletRepository.findByUserId(userId);
 
@@ -35,6 +37,7 @@ public class WalletService implements IWalletService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public WalletReadOnlyDTO getWalletByUuid(String uuid, Long userId) throws AppObjectNotFoundException {
 
         return walletRepository.findByUuidAndUserId(uuid, userId)
@@ -44,7 +47,7 @@ public class WalletService implements IWalletService {
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public WalletReadOnlyDTO createWallet(WalletInsertDTO dto, User user) {
         Wallet walletToCreate = walletMapper.mapToWalletEntityInsert(dto, user);
 
@@ -56,7 +59,7 @@ public class WalletService implements IWalletService {
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public WalletReadOnlyDTO updateWallet(String uuid, Long userId ,WalletUpdateDTO dto) throws AppObjectNotFoundException {
         Optional<Wallet> existingWallet = walletRepository.findByUuidAndUserId(uuid, userId);
 
@@ -72,7 +75,7 @@ public class WalletService implements IWalletService {
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteWallet(String uuid, Long userId) throws AppObjectNotFoundException {
         Optional<Wallet> walletToDelete = walletRepository.findByUuidAndUserId(uuid, userId);
 
