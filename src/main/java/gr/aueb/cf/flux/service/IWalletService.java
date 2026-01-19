@@ -24,6 +24,7 @@ public interface IWalletService {
     WalletReadOnlyDTO updateWallet(String uuid, Long userId, WalletUpdateDTO dto)
         throws AppObjectNotFoundException;
 
+    // DELETE /api/wallets/{uuid}
     void deleteWallet(String uuid, Long userId)
             throws AppObjectNotFoundException;
 

@@ -85,6 +85,9 @@ public class WalletController {
         return ResponseEntity.ok(updatedWallet);
     }
 
+    // ═══════════════════════════════════════════
+    // DELETE /api/wallets/{uuid}
+    // ═══════════════════════════════════════════
     @DeleteMapping("/{uuid}")
     public ResponseEntity<Void> deleteWallet(
             @PathVariable String uuid,
