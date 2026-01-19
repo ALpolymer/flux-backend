@@ -1,5 +1,6 @@
 package gr.aueb.cf.flux.service;
 
+import gr.aueb.cf.flux.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.flux.dto.CategoryInsertDTO;
 import gr.aueb.cf.flux.dto.CategoryReadOnlyDTO;
 import gr.aueb.cf.flux.mapper.CategoryMapper;
@@ -7,6 +8,7 @@ import gr.aueb.cf.flux.mapper.WalletMapper;
 import gr.aueb.cf.flux.model.Category;
 import gr.aueb.cf.flux.model.User;
 import gr.aueb.cf.flux.repository.CategoryRepository;
+import gr.aueb.cf.flux.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,5 +42,14 @@ public class CategoryService implements ICategoryService {
         return allCategories.stream()
                 .map(categoryMapper :: mapToCategoryReadOnlyDTO)
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CategoryReadOnlyDTO getCategoryByUuid(String uuid, Long userId) throws AppObjectNotFoundException {
+
+        return categoryRepository.findByUuidAndUserId(uuid, userId)
+                .map(categoryMapper :: mapToCategoryReadOnlyDTO)
+                .orElseThrow(()-> new AppObjectNotFoundException("Wallet", "Wallet with uuid " + uuid +" not found"));
     }
 }

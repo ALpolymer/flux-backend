@@ -1,5 +1,6 @@
 package gr.aueb.cf.flux.api;
 
+import gr.aueb.cf.flux.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.flux.dto.CategoryInsertDTO;
 import gr.aueb.cf.flux.dto.CategoryReadOnlyDTO;
 import gr.aueb.cf.flux.dto.WalletInsertDTO;
@@ -45,5 +46,18 @@ public class CategoryController {
         List<CategoryReadOnlyDTO> categories = categoryService.getAllCategoriesByUser(userId);
 
         return ResponseEntity.ok(categories);
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<CategoryReadOnlyDTO> getCategoryByUuid(
+            @PathVariable String uuid,
+            @AuthenticationPrincipal User currentUser
+    ) throws AppObjectNotFoundException
+    {
+        Long userId = currentUser.getId();
+
+        CategoryReadOnlyDTO category = categoryService.getCategoryByUuid(uuid, userId);
+
+        return ResponseEntity.ok(category);
     }
 }
