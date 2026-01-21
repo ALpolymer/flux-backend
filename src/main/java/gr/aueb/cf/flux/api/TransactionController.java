@@ -1,0 +1,53 @@
+package gr.aueb.cf.flux.api;
+
+import gr.aueb.cf.flux.core.exceptions.AppObjectNotFoundException;
+import gr.aueb.cf.flux.dto.TransactionInsertDTO;
+import gr.aueb.cf.flux.dto.TransactionReadOnlyDTO;
+import gr.aueb.cf.flux.model.User;
+import gr.aueb.cf.flux.service.ICategoryService;
+import gr.aueb.cf.flux.service.ITransactionService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/transactions")
+@RequiredArgsConstructor
+public class TransactionController {
+
+    private final ITransactionService transactionService;
+
+    // ═══════════════════════════════════════════
+    // POST /api/transactions
+    // ═══════════════════════════════════════════
+    @PostMapping
+    public ResponseEntity<TransactionReadOnlyDTO> createTransaction(
+            @RequestBody @Valid TransactionInsertDTO dto,
+            @AuthenticationPrincipal User currentUser
+            ) throws AppObjectNotFoundException
+    {
+        TransactionReadOnlyDTO createdTransaction = transactionService.createTransaction(dto, currentUser);
+
+        return ResponseEntity.status(201).body(createdTransaction);
+    }
+
+    // ═══════════════════════════════════════════
+    // GET /api/transactions
+    // ═══════════════════════════════════════════
+    @GetMapping
+    public ResponseEntity<List<TransactionReadOnlyDTO>> getAllTransactionsByUserId(
+            @AuthenticationPrincipal User currentUser
+    ){
+        Long userId = currentUser.getId();
+
+        List<TransactionReadOnlyDTO> transactions = transactionService.getAllTransactionsByUser(userId);
+
+        return ResponseEntity.ok(transactions);
+    }
+
+
+}
