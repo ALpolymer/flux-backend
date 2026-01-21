@@ -67,8 +67,15 @@ public class TransactionService implements ITransactionService {
               .toList();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public TransactionReadOnlyDTO getTransactionByUuidAndUser(String uuid, Long userId) throws AppObjectNotFoundException {
+        Optional<Transaction> transaction = transactionRepository.findByUuidAndWalletUserId(uuid, userId);
 
+        if(transaction.isEmpty()) throw new AppObjectNotFoundException("Transaction", "Transaction with uuid " + uuid + " not found.");
 
+        return transactionMapper.mapToTransactionReadOnlyDTO(transaction.get());
+    }
 
 
 }

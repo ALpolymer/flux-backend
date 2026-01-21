@@ -16,4 +16,7 @@ public interface ITransactionService {
 
     List<TransactionReadOnlyDTO> getAllTransactionsByUser(Long userId);
 
+    TransactionReadOnlyDTO getTransactionByUuidAndUser(String uuid, Long userId)
+            throws AppObjectNotFoundException;
+
 }

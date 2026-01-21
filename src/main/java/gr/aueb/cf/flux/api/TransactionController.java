@@ -50,4 +50,21 @@ public class TransactionController {
     }
 
 
+    // ═══════════════════════════════════════════
+    // GET /api/transactions/{uuid}
+    // ═══════════════════════════════════════════
+    @GetMapping("/{uuid}")
+    public ResponseEntity<TransactionReadOnlyDTO> getTransactionByUuidAndUser(
+            @PathVariable String uuid,
+            @AuthenticationPrincipal User currentUser
+    ) throws AppObjectNotFoundException
+    {
+        Long userId = currentUser.getId();
+
+        TransactionReadOnlyDTO transaction = transactionService.getTransactionByUuidAndUser(uuid, userId);
+
+        return ResponseEntity.ok(transaction);
+    };
+
+
 }

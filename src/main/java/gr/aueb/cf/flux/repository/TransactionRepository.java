@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface TransactionRepository extends JpaRepository<Transaction, Long>
 , JpaSpecificationExecutor<Transaction> {
     Optional<Transaction> findByUuid(String uuid);
+    Optional<Transaction> findByUuidAndWalletUserId(String uuid, Long userId);
     List<Transaction> findByWalletId(Long walletId);
     List<Transaction> findByCategoryId(Long categoryId);
     List<Transaction> findByWalletUserId(Long userId);
