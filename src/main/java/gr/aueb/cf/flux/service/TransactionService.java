@@ -3,6 +3,7 @@ package gr.aueb.cf.flux.service;
 import gr.aueb.cf.flux.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.flux.dto.TransactionInsertDTO;
 import gr.aueb.cf.flux.dto.TransactionReadOnlyDTO;
+import gr.aueb.cf.flux.dto.TransactionUpdateDTO;
 import gr.aueb.cf.flux.mapper.TransactionMapper;
 import gr.aueb.cf.flux.model.Category;
 import gr.aueb.cf.flux.model.Transaction;
@@ -75,6 +76,32 @@ public class TransactionService implements ITransactionService {
         if(transaction.isEmpty()) throw new AppObjectNotFoundException("Transaction", "Transaction with uuid " + uuid + " not found.");
 
         return transactionMapper.mapToTransactionReadOnlyDTO(transaction.get());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public TransactionReadOnlyDTO updateTransaction(String uuid, Long userId, TransactionUpdateDTO dto)
+            throws AppObjectNotFoundException {
+        Optional<Transaction> savedTransaction = transactionRepository.findByUuidAndWalletUserId(uuid, userId);
+
+        if(savedTransaction.isEmpty()) throw new AppObjectNotFoundException("Transaction", "Transaction with uuid " + uuid +" not found");
+
+        Optional<Wallet> wallet = walletRepository.findByUuidAndUserId(dto.walletId(), userId);
+
+        Optional<Category> category = categoryRepository.findByUuidAndUserId(dto.categoryId(), userId);
+
+        if(wallet.isEmpty()) throw new AppObjectNotFoundException("Wallet", "Wallet with uuid " + dto.walletId() +" not found");
+
+        if(category.isEmpty()) throw new AppObjectNotFoundException("Category", "Category with uuid " + dto.categoryId() +" not found");
+
+
+        Transaction updatedCategory = transactionMapper.mapToTransactionEntityUpdate(dto, savedTransaction.get(), wallet.get(), category.get());
+
+        Transaction savedUpdatedTransaction = transactionRepository.save(updatedCategory);
+
+        log.info("Category with uuid={} updated", savedUpdatedTransaction.getUuid());
+
+        return transactionMapper.mapToTransactionReadOnlyDTO(savedUpdatedTransaction);
     }
 
 
