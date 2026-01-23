@@ -95,9 +95,9 @@ public class TransactionService implements ITransactionService {
         if(category.isEmpty()) throw new AppObjectNotFoundException("Category", "Category with uuid " + dto.categoryId() +" not found");
 
 
-        Transaction updatedCategory = transactionMapper.mapToTransactionEntityUpdate(dto, savedTransaction.get(), wallet.get(), category.get());
+        Transaction updatedTransaction = transactionMapper.mapToTransactionEntityUpdate(dto, savedTransaction.get(), wallet.get(), category.get());
 
-        Transaction savedUpdatedTransaction = transactionRepository.save(updatedCategory);
+        Transaction savedUpdatedTransaction = transactionRepository.save(updatedTransaction);
 
         log.info("Transaction with uuid={} updated", savedUpdatedTransaction.getUuid());
 
