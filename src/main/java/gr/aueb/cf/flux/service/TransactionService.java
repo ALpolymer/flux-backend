@@ -104,5 +104,15 @@ public class TransactionService implements ITransactionService {
         return transactionMapper.mapToTransactionReadOnlyDTO(savedUpdatedTransaction);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteTransaction(String uuid, Long userId) throws AppObjectNotFoundException {
+        Optional<Transaction> transactionToDelete = transactionRepository.findByUuidAndWalletUserId(uuid, userId);
+
+        if(transactionToDelete.isEmpty()) throw new AppObjectNotFoundException("Transaction", "Transaction with uuid " + uuid +" not found");
+
+        transactionRepository.delete(transactionToDelete.get());
+    }
+
 
 }

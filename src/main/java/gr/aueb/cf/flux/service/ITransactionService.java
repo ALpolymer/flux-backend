@@ -25,4 +25,8 @@ public interface ITransactionService {
     // PUT /api/transactions/{uuid}
     TransactionReadOnlyDTO updateTransaction (String uuid, Long userId, TransactionUpdateDTO dto)
         throws AppObjectNotFoundException;
+
+    // DELETE /api/transactions/{uuid}
+    void deleteTransaction (String uuid, Long userId)
+        throws AppObjectNotFoundException;
 }

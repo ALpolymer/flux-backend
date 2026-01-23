@@ -68,6 +68,9 @@ public class TransactionController {
         return ResponseEntity.ok(transaction);
     };
 
+    // ═══════════════════════════════════════════
+    // PUT /api/transactions/{uuid}
+    // ═══════════════════════════════════════════
     @PutMapping("/{uuid}")
     public ResponseEntity<TransactionReadOnlyDTO> updateTransaction(
             @PathVariable String uuid,
@@ -80,6 +83,18 @@ public class TransactionController {
         TransactionReadOnlyDTO updatedTransaction = transactionService.updateTransaction(uuid, userId, dto);
 
         return ResponseEntity.ok(updatedTransaction);
+    }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> deleteTransaction(
+            @PathVariable String uuid,
+            @AuthenticationPrincipal User currentUser
+    ) throws AppObjectNotFoundException{
+        Long userId = currentUser.getId();
+
+        transactionService.deleteTransaction(uuid, userId);
+
+        return ResponseEntity.noContent().build();
     }
 
 
