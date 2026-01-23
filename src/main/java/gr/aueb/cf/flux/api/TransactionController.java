@@ -1,8 +1,10 @@
 package gr.aueb.cf.flux.api;
 
 import gr.aueb.cf.flux.core.exceptions.AppObjectNotFoundException;
+import gr.aueb.cf.flux.dto.CategoryReadOnlyDTO;
 import gr.aueb.cf.flux.dto.TransactionInsertDTO;
 import gr.aueb.cf.flux.dto.TransactionReadOnlyDTO;
+import gr.aueb.cf.flux.dto.TransactionUpdateDTO;
 import gr.aueb.cf.flux.model.User;
 import gr.aueb.cf.flux.service.ICategoryService;
 import gr.aueb.cf.flux.service.ITransactionService;
@@ -65,6 +67,20 @@ public class TransactionController {
 
         return ResponseEntity.ok(transaction);
     };
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<TransactionReadOnlyDTO> updateTransaction(
+            @PathVariable String uuid,
+            @RequestBody @Valid TransactionUpdateDTO dto,
+            @AuthenticationPrincipal User currentUser
+            ) throws AppObjectNotFoundException
+    {
+        Long userId = currentUser.getId();
+
+        TransactionReadOnlyDTO updatedTransaction = transactionService.updateTransaction(uuid, userId, dto);
+
+        return ResponseEntity.ok(updatedTransaction);
+    }
 
 
 }

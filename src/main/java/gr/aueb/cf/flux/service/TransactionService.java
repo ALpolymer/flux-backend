@@ -99,7 +99,7 @@ public class TransactionService implements ITransactionService {
 
         Transaction savedUpdatedTransaction = transactionRepository.save(updatedCategory);
 
-        log.info("Category with uuid={} updated", savedUpdatedTransaction.getUuid());
+        log.info("Transaction with uuid={} updated", savedUpdatedTransaction.getUuid());
 
         return transactionMapper.mapToTransactionReadOnlyDTO(savedUpdatedTransaction);
     }
