@@ -24,11 +24,11 @@ public class UserService implements IUserService{
     @Transactional(rollbackOn = Exception.class)
     public UserReadOnlyDTO saveUser(UserInsertDTO userInsertDTO) throws AppObjectAlreadyExists {
         if(userRepository.findByUsername(userInsertDTO.username()).isPresent()){
-            throw new AppObjectAlreadyExists("USER", "user with username" +  userInsertDTO.username() + "already exists");
+            throw new AppObjectAlreadyExists("USER", "user with username " +  userInsertDTO.username() + " already exists");
         }
 
         if(userRepository.findByEmail(userInsertDTO.email()).isPresent()){
-            throw new AppObjectAlreadyExists("EMAIL", "user with email" + userInsertDTO.email() + "already exists");
+            throw new AppObjectAlreadyExists("EMAIL", "user with email " + userInsertDTO.email() + " already exists");
         }
 
         User user =  userMapper.mapToUserEntity(userInsertDTO);
