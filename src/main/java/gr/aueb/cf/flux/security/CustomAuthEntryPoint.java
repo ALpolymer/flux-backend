@@ -19,7 +19,7 @@ public class CustomAuthEntryPoint implements AuthenticationEntryPoint {
         response.setContentType("application/json; charset=UTF-8");
 
         String json = "{" +
-                "\"code\": \"UserNotAuthenticated\", " +
+                "\"code\": \"User Not Authenticated\", " +
                 "\"description\": \"User needs to authenticate in order to access this route\"" +
                 "}";
         response.getWriter().write(json);
