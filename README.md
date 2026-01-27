@@ -349,12 +349,12 @@ Features:
 
 ## 👨‍💻 Author
 
-**Alexandros**
+**Alexandros Polymeros**
 
 - 🎓 Coding Factory @ Athens University of Economics and Business (AUEB)
-- 📧 [your.email@example.com]
-- 💼 [LinkedIn Profile]
-- 🐙 [GitHub Profile]
+- 📧 alpolymer@gmail.com
+- 💼 [LinkedIn Profile](https://www.linkedin.com/in/alexandros-polymeros-93776811a/)
+- 🐙 [GitHub Profile](https://github.com/ALpolymer)
 
 ---
 
