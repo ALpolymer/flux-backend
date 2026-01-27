@@ -61,7 +61,7 @@ This project was developed as part of the **Coding Factory @ AUEB** program, dem
 | **Database** | PostgreSQL 16 |
 | **Security** | Spring Security + JWT |
 | **ORM** | Spring Data JPA / Hibernate |
-| **Validation** | Bean Validation (JSR-380) |
+| **Validation** | Bean Validation |
 | **Documentation** | OpenAPI 3.0 / Swagger UI |
 | **Build Tool** | Gradle |
 | **Code Generation** | Lombok |
@@ -74,7 +74,7 @@ The application follows a **Layered Architecture** pattern, ensuring separation 
 
 
 
-<img src="src/main/resources/static/img.png" alt="Alt Text" style="width:40%; height:auto; margin: auto; display: block;" >
+<img src="src/main/resources/static/Layers.png" alt="Alt Text" style="width:1000%; height:auto;" >
 
 
 ### Project Structures
@@ -233,39 +233,8 @@ http://localhost:8080/swagger-ui.html
 
 ## 🗃️ Database Schema
 
-```
-┌──────────────┐       ┌──────────────┐       ┌──────────────┐
-│    users     │       │   wallets    │       │  categories  │
-├──────────────┤       ├──────────────┤       ├──────────────┤
-│ id (PK)      │       │ id (PK)      │       │ id (PK)      │
-│ uuid (UQ)    │       │ uuid (UQ)    │       │ uuid (UQ)    │
-│ username (UQ)│◄──┐   │ name         │   ┌──►│ name         │
-│ email (UQ)   │   │   │ description  │   │   │ description  │
-│ password     │   │   │ balance      │   │   │ user_id (FK) │
-│ role         │   └───│ user_id (FK) │   │   │ created_at   │
-│ is_deleted   │       │ created_at   │   │   │ updated_at   │
-│ created_at   │       │ updated_at   │   │   └──────────────┘
-│ updated_at   │       └──────────────┘   │
-└──────────────┘              │           │
-       │                      │           │
-       │                      ▼           │
-       │              ┌──────────────┐    │
-       │              │ transactions │    │
-       │              ├──────────────┤    │
-       │              │ id (PK)      │    │
-       │              │ uuid (UQ)    │    │
-       │              │ type         │    │
-       │              │ amount       │    │
-       │              │ description  │    │
-       │              │ date         │    │
-       │              │ wallet_id(FK)│────┘
-       │              │ category_id  │─────┘
-       │              │ created_at   │
-       │              │ updated_at   │
-       │              └──────────────┘
-       │                      │
-       └──────────────────────┘
-```
+<img src="src/main/resources/static/ERD.png" alt="Alt Text" style="width:100%; height:auto;" >
+
 
 ### Entity Relationships
 
@@ -282,37 +251,21 @@ http://localhost:8080/swagger-ui.html
 
 ### Authentication Flow
 
-```
-┌────────┐                    ┌────────┐                    ┌────────┐
-│ Client │                    │  API   │                    │   DB   │
-└───┬────┘                    └───┬────┘                    └───┬────┘
-    │                             │                             │
-    │  POST /auth/authenticate    │                             │
-    │  {email, password}          │                             │
-    │────────────────────────────►│                             │
-    │                             │  Verify credentials         │
-    │                             │────────────────────────────►│
-    │                             │◄────────────────────────────│
-    │                             │                             │
-    │  {token, user}              │  Generate JWT               │
-    │◄────────────────────────────│                             │
-    │                             │                             │
-    │  GET /api/wallets           │                             │
-    │  Authorization: Bearer xxx  │                             │
-    │────────────────────────────►│                             │
-    │                             │  Validate JWT               │
-    │                             │  Extract user               │
-    │                             │────────────────────────────►│
-    │                             │◄────────────────────────────│
-    │  [wallets]                  │                             │
-    │◄────────────────────────────│                             │
-```
+<img src="src/main/resources/static/registration.png" alt="Alt Text" style="width:100%; height:auto;" >
+
+<br>
+
+<img src="src/main/resources/static/login.png" alt="Alt Text" style="width:140%; height:auto;" >
+
+<br>
+
+<img src="src/main/resources/static/Protected-Access.png" alt="Alt Text" style="width:140%; height:auto;" >
 
 ### Security Features
 
 | Feature | Implementation |
 |---------|---------------|
-| Password Hashing | BCrypt (cost factor 12) |
+| Password Hashing | BCrypt  |
 | Token Type | JWT (JSON Web Token) |
 | Token Expiration | Configurable (default 24h) |
 | Session | Stateless |
